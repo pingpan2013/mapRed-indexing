@@ -85,7 +85,7 @@ public class InvertedIndex1
 		conf.set("xmlinput.start", "<eecs485_article>");
 		conf.set("xmlinput.end", "</eecs485_article>");
 
-		Job job = new Job(conf, "XmlParser");
+		Job job = new Job(conf, "Invertedindex1");
 
 		job.setOutputKeyClass(Text.class);
 		job.setOutputValueClass(LongWritable.class);
