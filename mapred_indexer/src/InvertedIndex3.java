@@ -17,7 +17,6 @@ import java.util.*;
 
 public class InvertedIndex3 {
     public static HashSet<String> docsSet = new HashSet<String>();    
-    public static ArrayList<Text> cache = new ArrayList<Text>();
     
     public static class Map extends Mapper<LongWritable, Text, Text, Text> {
         public void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException { 
@@ -54,24 +53,21 @@ public class InvertedIndex3 {
             String[] str;
            
             int totalDocs = docsSet.size();
-            System.out.println("XXXXXXXX:" + totalDocs );
-
+            ArrayList<String> cache = new ArrayList<String>();
+            
             for(Text value : values){
                 str = value.toString().split(":");                    
                 term = str[0];
                 dfD = Double.parseDouble(str[1]);
                 tfD = Double.parseDouble(str[2]);
                 normFac += Math.pow(tfD, 2) * Math.pow(Math.log10(totalDocs / dfD), 2);      
-                cache.add(value);
+                
+                cache.add(value.toString());
             }
 
-            for(Text value : cache){
-                System.out.println(value.toString());
-            }
-        
             StringBuilder list = new StringBuilder(); 
-            for (Text value : cache) {
-                str = value.toString().split(":");
+            for (String value : cache) {
+                str = value.split(":");
                 term = str[0];
                 df = str[1];
                 tf = str[2];
@@ -79,7 +75,7 @@ public class InvertedIndex3 {
                 tfD = Double.parseDouble(tf);
                 dfD = Double.parseDouble(df);
                 idf = Math.log10(totalDocs / dfD);
-                tfidf = tfD * idf;
+                tfidf = tfD * idf / normFac;
                 list.append(String.format("%s:%s:%f,", term, df, tfidf));
             }
     

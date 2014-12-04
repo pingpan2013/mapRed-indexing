@@ -1,4 +1,4 @@
-all: InvertedIndex1 InvertedIndex2 InvertedIndex3
+all: InvertedIndex1 InvertedIndex2 InvertedIndex3 InvertedIndex4
 
 InvertedIndex1:
 	javac -cp .:../hadoop-core-1.0.1.jar:../lib/* -d bin ./src/InvertedIndex1.java ./src/Xmlinputformat.java 
@@ -10,6 +10,10 @@ InvertedIndex2:
 
 InvertedIndex3:
 	javac -cp .:../hadoop-core-1.0.1.jar:../lib/* -d bin ./src/InvertedIndex3.java
+	jar -cvf ./dist/InvertedIndexer.jar -C bin/ .
+
+InvertedIndex4:
+	javac -cp .:../hadoop-core-1.0.1.jar:../lib/* -d bin ./src/InvertedIndex4.java
 	jar -cvf ./dist/InvertedIndexer.jar -C bin/ .
 
 clean:
